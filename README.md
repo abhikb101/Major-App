@@ -1,6 +1,5 @@
-# ui_start
-
-A new Flutter project.
+# Application for Major Project
+This repo contains Controller app for the robot made for Major project.
 
 ## Getting Started
 
