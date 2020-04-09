@@ -3,16 +3,28 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 
-var link="https://previews.123rf.com/images/releon003/releon0031702/releon003170200113/72386812-abstract-robot-eye-background.jpg";
 
 
+alert(BuildContext context){
+  showDialog(
+    context: context,
+    builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Enter the Robot Access URL"),
+        content: Text("Enable the toggle and Enter the URL"),
+        actions: [FlatButton(
+          onPressed:(){ Navigator.of(context).pop();}, child: Text("ok!"))],
+      );
+    });
+}
 class Homepage extends StatefulWidget {
   @override
   _HomepageState createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
-  bool _value=true;
+  bool _value=false;
+  var link="https://previews.123rf.com/images/releon003/releon0031702/releon003170200113/72386812-abstract-robot-eye-background.jpg";
   var _hint=" 192.168.0.1:500 ";
   TextEditingController _textFieldController = TextEditingController();
   _launcher() async {
@@ -27,9 +39,6 @@ class _HomepageState extends State<Homepage> {
     setState(() {
      _value=value;
      if(_value==true){
-       link=" ";
-     }
-     if(_value==false){
      showDialog(context: context,
       builder: (BuildContext context){
         return AlertDialog(
@@ -53,7 +62,8 @@ class _HomepageState extends State<Homepage> {
                 child: new Text('SUBMIT'),
                 onPressed: () {
                     _hint=" 192.168.0.1:500 ";
-                    link=_textFieldController.text;
+                    if(_textFieldController.text!="")
+                      link=_textFieldController.text;
                     Navigator.of(context).pop();
                    }
                 ),
@@ -101,9 +111,19 @@ class _HomepageState extends State<Homepage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
              Row(  mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[IconButton(icon: Icon(Icons.keyboard_arrow_up), iconSize: 40, onPressed: () {http.get(link+"/up");},color: Colors.white,),],),
+              children: <Widget>[IconButton(icon: Icon(Icons.keyboard_arrow_up), iconSize: 40, onPressed: () {
+                if(_value == false){
+                          alert(context);
+                          return ;
+                       }
+                http.get(link+"/up");},color: Colors.white,),],),
                Row(  mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[IconButton(icon: Icon(Icons.keyboard_arrow_down), iconSize: 40, onPressed: () {http.get(link+"/down");},color: Colors.white,),],),  
+              children: <Widget>[IconButton(icon: Icon(Icons.keyboard_arrow_down), iconSize: 40, onPressed: () {
+                if(_value == false){
+                          alert(context);
+                          return ;
+                       }
+                http.get(link+"/down");},color: Colors.white,),],),  
             ],),),
             Padding(
               padding: const EdgeInsets.all(35.0),
@@ -115,6 +135,10 @@ class _HomepageState extends State<Homepage> {
                   color: Colors.black,
                   onPressed: ()async {
                        var url = link; 
+                       if(_value == false){
+                          alert(context);
+                          return ;
+                       }
                        if (await canLaunch(url)) { 
                               await launch(url+"/imageclick");
                           } else {
@@ -128,7 +152,12 @@ class _HomepageState extends State<Homepage> {
                   RaisedButton(
                     splashColor: Colors.red,
                     color: Colors.black,
-                    onPressed: _launcher,
+                    onPressed:(){ 
+                      if(_value == false){
+                          alert(context);
+                          return ;
+                       }
+                      _launcher();},
                     child: Text(
                       "Live Video Feed",
                       style: TextStyle(fontWeight: FontWeight.w300, fontFamily: "Roboto", color: Colors.white),),
@@ -153,15 +182,35 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
             Row(  mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[IconButton(icon: Icon(Icons.keyboard_arrow_up), iconSize: 55, onPressed: () {http.get(link+"/aage");},color: Colors.white,),],),
+              children: <Widget>[IconButton(icon: Icon(Icons.keyboard_arrow_up), iconSize: 55, onPressed: () {
+                if(_value == false){
+                          alert(context);
+                          return ;
+                       }
+                http.get(link+"/aage");},color: Colors.white,),],),
             Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              IconButton(icon: Icon(Icons.keyboard_arrow_left), iconSize: 55 , onPressed: () {http.get(link+"/left");},color: Colors.white,),
-              IconButton(icon: Icon(Icons.keyboard_arrow_right),iconSize: 55 , onPressed: () {http.get(link+"/right");},color: Colors.white,)
+              IconButton(icon: Icon(Icons.keyboard_arrow_left), iconSize: 55 , onPressed: () {
+                if(_value == false){
+                          alert(context);
+                          return ;
+                       }
+                http.get(link+"/left");},color: Colors.white,),
+              IconButton(icon: Icon(Icons.keyboard_arrow_right),iconSize: 55 , onPressed: () {
+                if(_value == false){
+                          alert(context);
+                          return ;
+                       }
+                http.get(link+"/right");},color: Colors.white,)
             ],
             ),
             Row(  mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[IconButton(icon: Icon(Icons.keyboard_arrow_down), iconSize: 55, onPressed: () {http.get(link+"/peeche");},color: Colors.white,),],),
+            children: <Widget>[IconButton(icon: Icon(Icons.keyboard_arrow_down), iconSize: 55, onPressed: () {
+              if(_value == false){
+                          alert(context);
+                          return ;
+                       }
+              http.get(link+"/peeche");},color: Colors.white,),],),
           ],
         ),
          /* add child content here */

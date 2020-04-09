@@ -4,13 +4,11 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'Dashboard.dart';
 import 'Homepage.dart';
 import 'MyHomePage.dart';
 
 bool con_status = true;
-bool test;
 void main(){ 
   
   runApp(       

@@ -78,7 +78,7 @@ class _DashboardState extends State<Dashboard> {
 
                         leading: Text(name[index]), 
                         title: Text(message[index]),
-                        subtitle: Container(child: IconButton(iconSize: 16.0, icon: sub[index],)),
+                        subtitle: Container(child: sub[index]),
                       ),
                     );
                   },
