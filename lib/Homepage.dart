@@ -133,12 +133,20 @@ class _HomepageState extends State<Homepage> {
                       "Live Video Feed",
                       style: TextStyle(fontWeight: FontWeight.w300, fontFamily: "Roboto", color: Colors.white),),
                     ),
-                  RaisedButton(
+                  /* RaisedButton(
                     splashColor: Colors.red,
                     color: Colors.black,
                      onPressed: (){Navigator.pushNamed(context, '/dashboard');},
                     child: Text(
                       "Chatbot",
+                      style: TextStyle(fontWeight: FontWeight.w300, fontFamily: "Roboto", color: Colors.white),),
+                    ), */
+                  RaisedButton(
+                    splashColor: Colors.red,
+                    color: Colors.black,
+                     onPressed: (){Navigator.pushNamed(context, '/MyHomePage');},
+                    child: Text(
+                      "Chatbot2",
                       style: TextStyle(fontWeight: FontWeight.w300, fontFamily: "Roboto", color: Colors.white),),
                     ), 
                 ],
