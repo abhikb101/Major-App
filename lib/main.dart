@@ -10,7 +10,7 @@ import 'Homepage.dart';
 import 'MyHomePage.dart';
 
 bool con_status = true;
-
+bool test;
 void main(){ 
   
   runApp(       
