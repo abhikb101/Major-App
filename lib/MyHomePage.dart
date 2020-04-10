@@ -25,20 +25,82 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   void getData(String ss) async {
-    String a = "https://serpapi.com/search.json?q=";
-    String b = "&hl=hi&gl=in&google_domain=google.co.in&api_key=5477edd0656af328405de67e5bfa788e55756353089300175663132d81aedbe8";
-    http.Response response = await http.get(
-      
-      Uri.encodeFull(a+ss+b),
-      headers: {
-        "Accept": "application/json",
-        "key":"5477edd0656af328405de67e5bfa788e55756353089300175663132d81aedbe8"
 
+    String aa = "https://api.wit.ai/message?v=20200410&q=";
+    http.Response res = await http.get(
+      Uri.encodeFull(aa+ss),
+      headers: {
+        "Authorization":"Bearer SPIJO3NE4A5YQS3MHW4BI5EQHYAENQLJ"
       }
     );
 
-    var dataa = jsonDecode(response.body);
-    titles.add(dataa["top_stories"][0]["title"]);
+    var d = jsonDecode(res.body);
+    var intent = d["entities"]["intent"][0]["value"] ;
+
+    if(intent=="greeting"){
+      setState(() {
+        titles.add("Hello !");
+      });
+    }
+    else if(intent=="identity"){
+      titles.add("Hello, I'm MARS.Your personal companion.Hope you are doing good.");
+    }
+    else if(intent=="jokes"){
+      titles.add("");
+    }
+    else if(intent=="Recipe"){
+
+    }
+    else if(intent=="news"){
+      
+
+    }
+    else if(intent=="weather"){
+
+    }
+    else if(intent=="question"){
+
+    }
+    else if(intent=="music"){
+      String a = "https://serpapi.com/search.json?q=";
+      String b = "&hl=hi&gl=in&google_domain=google.co.in&api_key=5477edd0656af328405de67e5bfa788e55756353089300175663132d81aedbe8";
+      http.Response response = await http.get(
+        
+        Uri.encodeFull(a+ss+b),
+        headers: {
+          "Accept": "application/json",
+          "key":"5477edd0656af328405de67e5bfa788e55756353089300175663132d81aedbe8"
+
+        }
+      );
+    
+
+      var dataa = jsonDecode(response.body);
+      setState(() {
+        titles.add(dataa["inline_videos"][0]["link"]);
+      });
+    }
+    else{
+      String a = "https://serpapi.com/search.json?q=";
+      String b = "&hl=hi&gl=in&google_domain=google.co.in&api_key=5477edd0656af328405de67e5bfa788e55756353089300175663132d81aedbe8";
+      http.Response response = await http.get(
+        
+        Uri.encodeFull(a+ss+b),
+        headers: {
+          "Accept": "application/json",
+          "key":"5477edd0656af328405de67e5bfa788e55756353089300175663132d81aedbe8"
+
+        }
+      );
+    
+
+      var dataa = jsonDecode(response.body);
+      setState(() {
+        titles.add(dataa["organic_results"][0]["title"]);
+      });
+    }
+    
+    
 
   }
 
