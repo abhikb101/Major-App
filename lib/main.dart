@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'Dashboard.dart';
 import 'Homepage.dart';
+import 'MyHomePage.dart';
 
 bool con_status = true;
 bool test;
@@ -18,7 +19,8 @@ void main(){
         title: 'Bot App',                      
         routes: <String, WidgetBuilder>{
           "/":(context)=>Homepage(),
-          "/dashboard":(context)=>Dashboard()
+          "/dashboard":(context)=>Dashboard(),
+          "/MyHomePage":(context)=>MyHomePage()
         },
         onGenerateRoute: (RouteSettings settings){
           switch(settings.name){
@@ -30,7 +32,10 @@ void main(){
             //case '/controller':
               //return MaterialPageRoute(builder: (context)=>Controller());
               break;
-            default: return MaterialPageRoute(builder: (context)=>Homepage());
+            case '/MyHomePage': 
+              return MaterialPageRoute(builder: (context)=>MyHomePage());
+              break;
+            default: return MaterialPageRoute(builder: (context)=>MyHomePage());
           }
         },
       )
