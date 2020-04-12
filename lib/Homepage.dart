@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:location/location.dart';
 
 
+import 'formm.dart';
 var link="https://previews.123rf.com/images/releon003/releon0031702/releon003170200113/72386812-abstract-robot-eye-background.jpg";
-
-
+bool sos = false;
+LocationData  locationData;
 class Homepage extends StatefulWidget {
+
+  
   @override
   _HomepageState createState() => _HomepageState();
 }
@@ -15,14 +19,113 @@ class _HomepageState extends State<Homepage> {
   bool _value=true;
   var _hint=" 192.168.0.1:500 ";
   TextEditingController _textFieldController = TextEditingController();
-  _launcher() async {
-  var url = link; 
-  if (await canLaunch(url)) { 
-    await launch(url+"/video_feed");
-  } else {
-    throw 'Could not launch $url';
+
+
+
+
+void  func() async{
+  Location location = new Location();
+
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
+  
+
+  _serviceEnabled = await location.serviceEnabled();
+  if (!_serviceEnabled) {
+    _serviceEnabled = await location.requestService();
+    if (!_serviceEnabled) {
+      return;
+    }
   }
+
+  _permissionGranted = await location.hasPermission();
+  if (_permissionGranted == PermissionStatus.denied) {
+    _permissionGranted = await location.requestPermission();
+    if (_permissionGranted != PermissionStatus.granted) {
+      return;
+    }
+  }
+
+  locationData = await location.getLocation();
+
+  }
+  
+  _launcher() async {
+    var url = link; 
+    if (await canLaunch(url)) { 
+      await launch(url+"/video_feed");
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+showAlertDialog(BuildContext context) {  
+  // Create button  
+  Widget okButton = FlatButton(  
+    child: Text("OK"),  
+    onPressed: () {  
+      Navigator.of(context).pop();  
+    },  
+  );  
+  
+  // Create AlertDialog  
+  AlertDialog alert = AlertDialog(  
+    title: Text("SOS Alert"),  
+    content: Text("The message has been sent to the registered person !"),  
+    actions: [  
+      okButton,  
+    ],  
+  );
+
+
+  showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  );
+
 }
+
+showAlertDialog1(BuildContext context) {  
+  // Create button  
+  Widget okButton = FlatButton(  
+    child: Text("OK"),  
+    onPressed: () {  
+      Navigator.of(context).pop();  
+    },  
+  );  
+  
+  // Create AlertDialog  
+  AlertDialog alert = AlertDialog(  
+    title: Text("Message"),  
+    content: Text("You have not filled the SOS registeration form. Kindly fill the form first !"),  
+    actions: [  
+      okButton,  
+    ],  
+  );
+
+
+  showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  );
+
+}
+
+void _sosfunc(){
+
+  if(sos){
+     showAlertDialog(context);
+  }
+  else{
+    showAlertDialog1(context);
+  }
+
+}
+
   void _onChanged(bool value){
     setState(() {
      _value=value;
@@ -70,12 +173,59 @@ class _HomepageState extends State<Homepage> {
      );} 
     });
   }
+
+  @override
+  void initState() {
+    func();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(            
+    return Scaffold(    
+      drawer: Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: Text(
+                  'Mars',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    ),
+                  ),
+
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                ),
+              ),
+              ListTile(
+                title: Text('HomePage'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: Text('SOS Form'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamed(context, '/SosForm');
+                  
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+            ],
+          ),// Populate the Drawer in the next step.
+      ),
+                
                 appBar:AppBar(
                   backgroundColor: Colors.black,
                   actions: <Widget>[
+                    IconButton(icon: Icon(Icons.all_inclusive), iconSize: 30, onPressed: () {_sosfunc();}),
                     Switch(value:_value , onChanged: (bool value) {_onChanged(value);},)
                   ],
                   title: Text(
@@ -83,8 +233,8 @@ class _HomepageState extends State<Homepage> {
                   textDirection: TextDirection.ltr,
                   textScaleFactor: 1.0,
                   style: TextStyle(fontWeight: FontWeight.w300, fontFamily: "Roboto", color: Colors.white),
-                        )
-                      ),            
+                  )
+                ),            
         backgroundColor: Colors.black,
         body: Container(
         decoration: BoxDecoration(

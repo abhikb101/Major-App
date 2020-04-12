@@ -1,4 +1,6 @@
+import 'formm.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -20,7 +22,8 @@ void main(){
         routes: <String, WidgetBuilder>{
           "/":(context)=>Homepage(),
           "/dashboard":(context)=>Dashboard(),
-          "/MyHomePage":(context)=>MyHomePage()
+          "/MyHomePage":(context)=>MyHomePage(),
+          "/SosForm":(context)=>Formm()
         },
         onGenerateRoute: (RouteSettings settings){
           switch(settings.name){
@@ -34,6 +37,9 @@ void main(){
               break;
             case '/MyHomePage': 
               return MaterialPageRoute(builder: (context)=>MyHomePage());
+              break;
+            case '/SosForm':
+              return MaterialPageRoute(builder: (context)=>Formm());
               break;
             default: return MaterialPageRoute(builder: (context)=>MyHomePage());
           }
