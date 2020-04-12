@@ -4,7 +4,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 
 
-
+import 'formm.dart';
+bool sos = false;
+LocationData  locationData;
 
 alert(BuildContext context){
   showDialog(
@@ -288,6 +290,7 @@ void _sosfunc(){
                           alert(context);
                           return ;
                        }
+
                        if (await canLaunch(url)) { 
                               await launch(url+"/imageclick");
                           } else {
